@@ -42,15 +42,11 @@ const consumer = new Consumer({
   isBroadcast: false, // default is false, that mean messages will be pushed to consumer cluster only once.
 });
 
-consumer.subscribe('your-topic', '*');
-
-consumer.on('message', (msgs, done) => {
-  msgs.forEach(msg => console.log(`receive message, msgId: ${msg.msgId}, body: ${msg.body.toString()}`));
-  done();
+consumer.subscribe(config.topic, '*', function*(msg) {
+  console.log(`receive message, msgId: ${msg.msgId}, body: ${msg.body.toString()}`)
 });
 
-consumer.on('error', err => console.log(err.stack));
-consumer.ready(() => console.log('consumer is ready'));
+consumer.on('error', err => console.log(err));
 ```
 
 producer
